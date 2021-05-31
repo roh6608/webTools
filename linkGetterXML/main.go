@@ -9,10 +9,6 @@ import (
 	"regexp"
 )
 
-// will be a command line utility that can create the links from within a list of file names, at least to start ; )
-// write a proper golang test for this as well
-// being able to just provide a link to the xml would be good also
-
 // A function that extracts the string between two XML tags
 func getBetween(str string, tag string) (list []string) {
 	left := "<" + tag + ">"
