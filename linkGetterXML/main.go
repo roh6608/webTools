@@ -54,6 +54,7 @@ func readXml(filepath string) string {
 	return lines[1]
 }
 
+// A function to write the output to a file
 func writeFile(filepath string, list []string) {
 	f, err := os.Create(filepath)
 
