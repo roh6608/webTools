@@ -1,6 +1,8 @@
 package main
 
-import "testing"
+import (
+	"testing"
+)
 
 func TestGetBetween(t *testing.T) {
 	inputData := make([]string, 2)
@@ -13,9 +15,7 @@ func TestGetBetween(t *testing.T) {
 
 	testGot := getBetween(inputData, "Content")
 
-	print(testGot)
-	print(testWant)
-	if testGot[0] != testWant[0] {
+	if testGot[0] != testWant[0] || testGot[1] != testWant[1] {
 		t.Errorf("getBetween was incorrect, got: %s, wanted: %s", testGot, testWant)
 	}
 

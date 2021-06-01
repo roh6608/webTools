@@ -16,11 +16,11 @@ func getBetween(input []string, tag string) (list []string) {
 	rx := regexp.MustCompile(`(?s)` + regexp.QuoteMeta(left) + `(.*?)` + regexp.QuoteMeta(right))
 
 	i := 0
-	matches := rx.FindAllStringSubmatch(input[i], -1)
-	for i < (len(input) - 1) {
+	for i < len(input) {
+		matches := rx.FindAllStringSubmatch(input[i], -1)
 		list = append(list, matches[0][1])
 		i += 1
-		matches = rx.FindAllStringSubmatch(input[i], -1)
+
 	}
 	return list
 }
@@ -80,15 +80,11 @@ func writeFile(filepath string, list []string) {
 
 func main() {
 	outputPointer := flag.Bool("o", false, "If the output goes to a file, else will print")
-	inputPointer := flag.String("i", "", "The input filepath for the XML file")
-	tagPointer := flag.String("t", "Key", "The tag to search between")
+	inputPointer := flag.String("i", "./testFiles/plant_catalog.xml", "The input filepath for the XML file")
+	tagPointer := flag.String("t", "COMMON", "The tag to search between")
 	stemPointer := flag.String("s", "", "The stem of the url")
 
 	flag.Parse()
-
-	test := readXml("./testFiles/plant_catalog.xml")
-	fmt.Print(test)
-	fmt.Println(getBetween(test, "COMMON"))
 
 	links := addStem(getBetween(readXml(*inputPointer), *tagPointer), *stemPointer)
 
