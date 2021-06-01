@@ -9,6 +9,27 @@ import (
 	"regexp"
 )
 
+// A function to check the equality of string slices
+func equalSlice(compare1 []string, compare2 []string) bool {
+
+	if len(compare1) != len(compare2) {
+		return false
+	} else {
+		i := 0
+
+		for i < len(compare1) {
+			if compare1[i] != compare2[i] {
+				return false
+			}
+
+			i += 1
+		}
+	}
+
+	return true
+
+}
+
 // A function that extracts the string between two XML tags
 func getBetween(input []string, tag string) (list []string) {
 	left := "<" + tag + ">"
@@ -18,7 +39,11 @@ func getBetween(input []string, tag string) (list []string) {
 	i := 0
 	for i < len(input) {
 		matches := rx.FindAllStringSubmatch(input[i], -1)
-		list = append(list, matches[0][1])
+
+		if matches != nil {
+			list = append(list, matches[0][1])
+		}
+
 		i += 1
 
 	}

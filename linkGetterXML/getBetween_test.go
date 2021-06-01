@@ -5,20 +5,25 @@ import (
 )
 
 func TestGetBetween(t *testing.T) {
-	inputData := make([]string, 2)
-	inputData[0] = "<Content>Line 1</Content>"
-	inputData[1] = "<Content>Line 2</Content>"
 
-	testWant := make([]string, 2)
-	testWant[0] = "Line 1"
-	testWant[1] = "Line 2"
-
-	testGot := getBetween(inputData, "Content")
-
-	if testGot[0] != testWant[0] || testGot[1] != testWant[1] {
-		t.Errorf("getBetween was incorrect, got: %s, wanted: %s", testGot, testWant)
+	data := []struct {
+		x []string
+		y []string
+	}{
+		{[]string{"<Content>Line 1</Content>"}, []string{"Line 1"}},
+		{[]string{"<Content>Line 1</Content>", "<Content>Line 2</Content>"}, []string{"Line 1", "Line 2"}},
+		{[]string{"<Content>Line 1</Content>", "<NotContent>Don't Grab</NotContent>", "<Content>Line 3</Content>"},
+			[]string{"Line 1", "Line 3"}},
 	}
 
+	for _, table := range data {
+		testGot := getBetween(table.x, "Content")
+
+		if equalSlice(testGot, table.y) == false {
+			t.Errorf("getBetween was incorrect, got: %s, wanted: %s", testGot, table.y)
+		}
+
+	}
 }
 
 // write more wide ranging tests utilising structs and loops to test more cases
