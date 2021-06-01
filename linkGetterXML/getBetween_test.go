@@ -22,3 +22,5 @@ func TestGetBetween(t *testing.T) {
 }
 
 // write more wide ranging tests utilising structs and loops to test more cases
+// Currently function works if all lines have the tag being searched for, however doesnt if other tags are present
+// have current test as first in the struct and then write in more tests as they are needed
