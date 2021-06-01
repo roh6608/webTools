@@ -10,16 +10,17 @@ import (
 )
 
 // A function that extracts the string between two XML tags
-func getBetween(str string, tag string) (list []string) {
+func getBetween(input []string, tag string) (list []string) {
 	left := "<" + tag + ">"
 	right := "</" + tag + ">"
 	rx := regexp.MustCompile(`(?s)` + regexp.QuoteMeta(left) + `(.*?)` + regexp.QuoteMeta(right))
-	matches := rx.FindAllStringSubmatch(str, -1)
 
 	i := 0
-	for i < len(matches) {
-		list = append(list, matches[i][1])
+	matches := rx.FindAllStringSubmatch(input[i], -1)
+	for i < (len(input) - 1) {
+		list = append(list, matches[0][1])
 		i += 1
+		matches = rx.FindAllStringSubmatch(input[i], -1)
 	}
 	return list
 }
@@ -37,8 +38,8 @@ func addStem(list []string, stem string) []string {
 	return links
 }
 
-// A function to read the lines of XML
-func readXml(filepath string) string {
+// A function to read XML
+func readXml(filepath string) []string {
 	file, err := os.Open(filepath)
 	if err != nil {
 		fmt.Println(err)
@@ -51,7 +52,7 @@ func readXml(filepath string) string {
 		lines = append(lines, scanner.Text())
 	}
 
-	return lines[1]
+	return lines
 }
 
 // A function to write the output to a file
@@ -78,13 +79,16 @@ func writeFile(filepath string, list []string) {
 }
 
 func main() {
-
 	outputPointer := flag.Bool("o", false, "If the output goes to a file, else will print")
 	inputPointer := flag.String("i", "", "The input filepath for the XML file")
 	tagPointer := flag.String("t", "Key", "The tag to search between")
 	stemPointer := flag.String("s", "", "The stem of the url")
 
 	flag.Parse()
+
+	test := readXml("./testFiles/plant_catalog.xml")
+	fmt.Print(test)
+	fmt.Println(getBetween(test, "COMMON"))
 
 	links := addStem(getBetween(readXml(*inputPointer), *tagPointer), *stemPointer)
 
