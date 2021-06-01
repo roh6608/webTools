@@ -15,4 +15,4 @@ func TestReadXML(t *testing.T) {
 
 }
 
-// write the test with a struct for the answers so it can test a mutlitude of different files
+// write this test properly as getBetween
